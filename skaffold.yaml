@@ -1,0 +1,23 @@
+apiVersion: skaffold/v2beta29
+kind: Config
+metadata:
+  name: microservices-k8s
+
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/*
+
+build:
+  local:
+    push: false
+
+  artifacts:
+    - image: mvc-k8s-user
+      context: ./user
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
